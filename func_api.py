@@ -40,3 +40,4 @@ response = client.models.generate_content(
 
 receipt = Reciept.model_validate_json(response.text)
 print(receipt)
+
