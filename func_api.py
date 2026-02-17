@@ -1,11 +1,10 @@
 import os
-import main
 import pathlib
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
-
+from pick import pick
 
 class Item(BaseModel):
     item_name: str = Field(description="The name of the item.")
@@ -17,11 +16,16 @@ class Reciept(BaseModel):
 
 load_dotenv()
 API_KEY = os.getenv('KEY')
+path = os.getenv('FILE_PATH')
+dir_list = os.listdir(path)
+
+title = 'Pick a receipt:  '
+file, index = pick(dir_list, title)
 
 client = genai.Client(
     api_key=API_KEY)
 
-filepath = pathlib.Path(f'tj_reciepts/{main.file}').expanduser()
+filepath = pathlib.Path(f'reciepts/{file}')
 
 prompt = "please extract all items and prices from this receipt"
 response = client.models.generate_content(

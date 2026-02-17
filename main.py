@@ -1,16 +1,19 @@
-import os
-import func_categorize
 import func_api
-from dotenv import load_dotenv
+import csv
+from datetime import date
 from pick import pick
 
-load_dotenv()
+items = func_api.receipt.items
+today = date.today()
+title = 'Where is this receipt from?  '
+store = ["Roche Bros", "Trader Joe's"]
+store, index = pick(store, title)
 
-FILE_PATH = os.getenv('FILE_PATH')
-path = FILE_PATH
-dir_list = os.listdir(path)
+with open('input.csv', 'w') as infile:
+    writer = csv.writer(infile)
+    for item in items:
+        title = f'What category is {item.item_name}? '
+        category = ["Vegetables", "Grains", "Fruit", "Snacks", "Dairy", "Meat", "Drinks", "Frozen", "Canned Goods", "Other" ]
+        category, index = pick(category, title)
+        writer.writerow([today, store, item.item_name, item.unit_price, item.unit, category])
 
-title = 'Pick a receipt:  '
-file, index = pick(dir_list, title)
-
-func_categorize.categorize(func_api.receipt.items)
