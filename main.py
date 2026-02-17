@@ -9,7 +9,7 @@ title = 'Where is this receipt from?  '
 store = ["Roche Bros", "Trader Joe's"]
 store, index = pick(store, title)
 
-with open('input.csv', 'w') as infile:
+with open('output.csv', 'w') as infile:
     writer = csv.writer(infile)
     for item in items:
         title = f'What category is {item.item_name}? '
